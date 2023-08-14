@@ -4,10 +4,27 @@ const telefone = document.querySelector('#telefone');
 const form = document.querySelector('form');
 const contatosNomes = [];
 const contatoTelefones = [];
+const erro = document.querySelector("#erro");
 
 // funções
+const validaContato = () => {
+    if(contatosNomes.includes(nome.value) && contatoTelefones.includes(telefone.value)) {
+        erro.innerText = "Contato já cadastrado";
+        return false;
+    } else {
+        contatosNomes.push(nome.value);
+        contatoTelefones.push(telefone.value);
+        return true;
+    }
+}
+
 const validarForm = () => {
-    if((nome.value == '') || (telefone.value == '')) {
+    if(nome.value == ''){
+        erro.innerText = "Digite um nome";
+        return false;
+
+    } else if(telefone.value == ''){
+        erro.innerText = "Digite um telefone";
         return false;
     } else {
         return true;
@@ -36,17 +53,15 @@ const exibirContatos = () => {
 
 const salvarContatos = () => {
     if(validarForm()) {
-    contatosNomes.push(nome.value);
-    contatoTelefones.push(telefone.value);
-    exibirContatos();
-    } else {
-        console.log('n validou');
-    }
+        if(validaContato()) {
+            exibirContatos();
+        }
+    } 
 }
 
 // eventos
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+    erro.innerText = "";
     salvarContatos();
-    
 })
